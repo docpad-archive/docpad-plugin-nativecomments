@@ -1,9 +1,6 @@
 # Native Comments Plugin for DocPad
 Adds support for native comments to [DocPad](https://docpad.org).
 
-Still under construction.
-
-
 
 ## Install
 
@@ -16,13 +13,30 @@ Still under construction.
 1. Output the comment form and listing. You may have to your document's extension (that you place this snippet inside) to `my-document.html.eco.eco` to ensure the inner eco logic within the block is rendered correctly.
 
   ```
-  <%- @getCommentBlock() %>
+  <%- @getCommentsBlock() %>
   ```
+
+1. Create a `comment` layout that contains something like:
+
+	``` erb
+	---
+	layout: default
+	---
+
+	<article class="comment">
+	    <h1 class="comment-title"><%= @document.title %></h1>
+	    <span class="comment-author"><%= @document.author %></span>
+	    <a href="<%= @getDatabase().get(@document.for)?.get('url') %>" class="comment-for"><%= @getDatabase().get(@document.for)?.get('title') %></a>
+	    <div class="comment-body">
+	        <%- @content %>
+	    </div>
+	</article>
+	````
 
 
 ## Configure
 
-No configuration yet.
+Some configuration options are available. Check out `src/nativecomments.plugin.coffee` for them.
 
 
 ## History

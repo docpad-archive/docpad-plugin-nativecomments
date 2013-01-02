@@ -24,7 +24,7 @@
 	},
 	"engines" : {
 		"node": ">=0.4",
-		"docpad": ">=6.3 <7"
+		"docpad": ">=6.21 <7"
 	},
 	"devDependencies": {
 		"coffee-script": "1.4.x"
