@@ -38,7 +38,7 @@ module.exports = (BasePlugin) ->
 					</div>
 
 				</section>
-				""".replace(/\n\s+/g,'\n')
+				""".replace(/^\s+|\n\s*|\s+$/g,'')
 
 			# Chain
 			@
