@@ -1,0 +1,36 @@
+{
+	"name": "docpad-plugin-nativecomments",
+	"version": "2.0.0",
+	"description": "Adds support for native comments to DocPad",
+	"homepage": "http://docpad.org/plugin/nativecomments",
+	"keywords": [
+		"docpad",
+		"docpad-plugin",
+		"comments", "comment"
+	],
+	"author": "Bevry Pty Ltd <us@bevry.me> (http://bevry.me)",
+	"maintainers": [
+		"Benjamin Lupton <b@lupton.cc> (http://balupton.com)"
+	],
+	"contributors": [
+		"Benjamin Lupton <b@lupton.cc> (http://balupton.com)"
+	],
+	"bugs": {
+		"url": "https://github.com/docpad/docpad-plugin-nativecomments/issues"
+	},
+	"repository" : {
+		"type": "git",
+		"url": "https://github.com/docpad/docpad-plugin-nativecomments.git"
+	},
+	"engines" : {
+		"node": ">=0.4",
+		"docpad": ">=6.3 <7"
+	},
+	"devDependencies": {
+		"coffee-script": "1.4.x"
+	},
+	"main": "./out/nativecomments.plugin.js",
+	"scripts": {
+		"test": "node ./out/nativecomments.test.js"
+	}
+}
