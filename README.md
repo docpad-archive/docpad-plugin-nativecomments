@@ -13,13 +13,11 @@ Still under construction.
   npm install --save --force docpad-plugin-nativecomments
   ```
 
-1. Ensure your layout outputs the scripts block, using eco it will look something like this:
+1. Output the comment form and listing. You may have to your document's extension (that you place this snippet inside) to `my-document.html.eco.eco` to ensure the inner eco logic within the block is rendered correctly.
 
   ```
   <%- @getCommentBlock() %>
   ```
-
-1. You may have to change the extension of the document you placed the above snippet in to `my-document.html.eco.eco` to ensure the inner eco logic within the block is rendered correctly.
 
 
 ## Configure
