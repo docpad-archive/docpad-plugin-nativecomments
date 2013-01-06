@@ -10,7 +10,7 @@ Adds support for native comments to [DocPad](https://docpad.org).
   npm install --save --force docpad-plugin-nativecomments
   ```
 
-1. Output the comment form and listing. You may have to your document's extension (that you place this snippet inside) to `my-document.html.eco.eco` to ensure the inner eco logic within the block is rendered correctly.
+1. Output the comment form and listing. You may have to change your document's extension (that you place this snippet inside) to `my-document.html.eco.eco` to ensure the inner eco logic within the block is rendered correctly.
 
   ```
   <%- @getCommentsBlock() %>
