@@ -8,7 +8,7 @@ module.exports = (BasePlugin) ->
 		# Config
 		config:
 			collectionName: 'comments'
-			relativePath: 'comments'
+			relativeDirPath: 'comments'
 			postUrl: '/comment'
 			extension: '.html.md'
 			blockHtml: """
@@ -20,7 +20,7 @@ module.exports = (BasePlugin) ->
 						<p>Enter your comment here. Markdown supported.</p>
 
 						<form action="/comment" method="POST">
-							<input type="hidden" name="for" value="<%= @document.id %>" />
+							<input type="hidden" name="for" value="<%= @document.relativeBase %>" />
 							<label>Author: <input type="author" name="author" /></label>
 							<label>Title: <input type="text" name="title" /></label>
 							<label>Body: <textarea name="body"></textarea></label>
@@ -50,16 +50,17 @@ module.exports = (BasePlugin) ->
 		# Add our form to our template data
 		extendTemplateData: ({templateData}) ->
 			# Prepare
-			{docpad,config} = @
+			plugin = @
+			docpad = @docpad
 
 			# getCommentsBlock
 			templateData.getCommentsBlock = ->
 				@referencesOthers()
-				return config.blockHtml
+				return plugin.getConfig().blockHtml
 
 			# getComments
 			templateData.getComments = ->
-				return docpad.getCollection(config.collectionName).findAll(for:@document.id)
+				return docpad.getCollection(plugin.getConfig().collectionName).findAll(for: @document.relativeBase)
 
 			# Chain
 			@
@@ -69,11 +70,12 @@ module.exports = (BasePlugin) ->
 		# Create our live collection for our comments
 		extendCollections: ->
 			# Prepare
-			{docpad,config} = @
+			config = @getConfig()
+			docpad = @docpad
 			database = docpad.getDatabase()
 
 			# Create the collection
-			comments = database.findAllLive({relativePath: $startsWith: config.relativePath},[date:-1])
+			comments = database.findAllLive({relativeDirPath: $startsWith: config.relativeDirPath}, [date:-1])
 
 			# Set the collection
 			docpad.setCollection(config.collectionName, comments)
@@ -87,70 +89,57 @@ module.exports = (BasePlugin) ->
 		serverExtend: (opts) ->
 			# Prepare
 			{server} = opts
-			{docpad,config} = @
+			plugin = @
+			docpad = @docpad
 			database = docpad.getDatabase()
 
 			# Comment Handing
-			server.post config.postUrl, (req,res,next) ->
+			server.all @getConfig().postUrl, (req,res,next) ->
 				# Prepare
-				date = new Date()
-				dateTime = date.getTime()
-				dateString = date.toString()
-				filename = "#{dateTime}#{config.extension}"
-				fileRelativePath = "#{config.relativePath}/#{filename}"
-				fileFullPath = docpad.config.documentsPaths[0]+"/#{fileRelativePath}"
+				config = plugin.getConfig()
+				now = new Date(req.body.date or null)
+				nowTime = now.getTime()
+				nowString = now.toString()
+				redirect = req.body.redirect ? req.query.redirect ? 'back'
 
-				# Extract
-				commentTitle = req.body.title or "Comment at #{dateString}"
-				commentBody = req.body.body or ''
-				commentFor = req.body.for or ''
-				commentAuthor = req.body.author or ''
-
-				# Comment data
-				commentData = """
-					---
-					title: "#{commentTitle}"
-					for: "#{commentFor}"
-					author: "#{commentAuthor}"
-					layout: "comment"
-					date: "#{date.toISOString()}"
-					---
-
-					#{commentBody}
-					"""
-
-				# Package attributes
-				attributes =
-					data: commentData
-					date: date
-					filename: filename
-					relativePath: fileRelativePath
-					fullPath: fileFullPath
+				# Prepare
+				documentAttributes =
+					data: req.body.body or ''
+					meta:
+						title: req.body.title or "Comment at #{nowString}"
+						for: req.body.for or ''
+						author: req.body.author or ''
+						date: now
+						fullPath: docpad.config.documentsPaths[0]+"/#{config.relativeDirPath}/#{nowTime}#{config.extension}"
 
 				# Create document from attributes
-				comment = docpad.ensureDocument(attributes)
+				document = docpad.createDocument(documentAttributes)
 
-				# Load the document
-				docpad.loadDocument comment, (err) ->
+				# Inject helper
+				config.injectDocumentHelper?.call(me, document)
+
+				# Add it to the database
+				database.add(document)
+
+				# Listen for regeneration
+				docpad.once 'generateAfter', ->
+					# Check
+					# return next(err)  if err
+
+					# Update browser
+					if redirect is 'back'
+						res.redirect('back')
+					else if redirect is 'document'
+						res.redirect(document.get('url'))
+					else
+						res.json(documentAttributes)
+
+					# No need to call next here as res.send/redirect will do it for us
+
+				# Write source which will trigger the regeneration
+				document.writeSource {cleanAttributes:true}, (err) ->
 					# Check
 					return next(err)  if err
-
-					# Add to the database
-					database.add(comment)
-
-					# Listen for regeneration
-					docpad.once 'generateAfter', (err) ->
-						# Check
-						return next(err)  if err
-
-						# Update browser
-						res.redirect('back')
-
-					# Write source which will trigger the regeneration
-					comment.writeSource (err) ->
-						# Check
-						return next(err)  if err
-
 
 			# Done
 			@
