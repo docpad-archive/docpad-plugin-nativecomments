@@ -1,43 +1,43 @@
 {
-	"name": "docpad-plugin-nativecomments",
-	"version": "2.1.0",
-	"description": "Adds support for native comments to DocPad",
-	"homepage": "http://docpad.org/plugin/nativecomments",
-	"keywords": [
-		"docpad",
-		"docpad-plugin",
-		"comments", "comment"
-	],
-	"author": "Bevry Pty Ltd <us@bevry.me> (http://bevry.me)",
-	"maintainers": [
-		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
-	],
-	"contributors": [
-		"Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
-	],
-	"bugs": {
-		"url": "https://github.com/docpad/docpad-plugin-nativecomments/issues"
-	},
-	"repository" : {
-		"type": "git",
-		"url": "https://github.com/docpad/docpad-plugin-nativecomments.git"
-	},
-	"engines" : {
-		"node": ">=0.4"
-	},
-	"dependencies": {},
-	"peerDependencies": {
-		"docpad": ">=6.46 <7"
-	},
-	"devDependencies": {
-		"rimraf": "~2.2.2",
-		"chai": "~1.7.2",
-		"superagent": "~0.15.4",
-		"coffee-script": "~1.6.2",
-		"docpad": ">=6.46 <7"
-	},
-	"main": "./out/nativecomments.plugin.js",
-	"scripts": {
-		"test": "node ./out/nativecomments.test.js"
-	}
+  "name": "docpad-plugin-nativecomments",
+  "version": "2.1.0",
+  "description": "Adds support for native comments to DocPad",
+  "homepage": "http://docpad.org/plugin/nativecomments",
+  "keywords": [
+    "docpad",
+    "docpad-plugin",
+    "comments",
+    "comment"
+  ],
+  "author": "Bevry Pty Ltd <us@bevry.me> (http://bevry.me)",
+  "maintainers": [
+    "Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
+  ],
+  "contributors": [
+    "Benjamin Lupton <b@lupton.cc> (https://github.com/balupton)"
+  ],
+  "bugs": {
+    "url": "https://github.com/docpad/docpad-plugin-nativecomments/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/docpad/docpad-plugin-nativecomments.git"
+  },
+  "engines": {
+    "node": ">=0.4"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "docpad": ">=6.46 <7"
+  },
+  "devDependencies": {
+    "rimraf": "~2.2.2",
+    "chai": "~1.7.2",
+    "superagent": "~0.15.4",
+    "coffee-script": "~1.6.2"
+  },
+  "main": "./out/nativecomments.plugin.js",
+  "scripts": {
+    "test": "node ./out/nativecomments.test.js"
+  }
 }
