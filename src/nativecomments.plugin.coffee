@@ -109,6 +109,7 @@ module.exports = (BasePlugin) ->
 						title: req.body.title or "Comment at #{nowString}"
 						for: req.body.for or ''
 						author: req.body.author or ''
+						mtime: now
 						date: now
 						fullPath: docpad.config.documentsPaths[0]+"/#{config.relativeDirPath}/#{nowTime}#{config.extension}"
 

@@ -35,6 +35,7 @@ module.exports = (testers) ->
 		testServer: (next) ->
 			# Prepare
 			tester = @
+			generated = false
 
 			# Create the server
 			super
@@ -84,6 +85,9 @@ module.exports = (testers) ->
 						.end (err,res) ->
 							return done(err)  if err
 
+							# Generated
+							generated = true
+
 							# Cleanup
 							if res.body?.meta?.fullPath
 								res.body.meta.fullPath = res.body.meta.fullPath.replace(/.+src\/documents/, 'trimmed')
@@ -97,6 +101,7 @@ module.exports = (testers) ->
 									for: 'index',
 									author: 'the comment author',
 									date: nowString
+									mtime: nowString
 									fullPath: 'trimmed/comments/'+nowTime+'.html.md'
 
 							# Check
