@@ -11,16 +11,22 @@ module.exports = (testers) ->
 		docpadConfig:
 			port: 9779
 
-		# Test Create
-		testCreate: =>
+		cleanup: =>
 			# Prepare
 			tester = @
-			testerConfig = tester.getConfig()
-
+			
 			# Cleanup native comments
 			@test "clean nativecomments", (done) ->
-				rimraf pathUtil.join(testerConfig.testPath, 'src', 'documents', 'comments'), (err) ->
+				rimraf pathUtil.join(tester.getConfig().testPath, 'src', 'documents', 'comments'), (err) ->
 					done()  # ignore errors
+
+			# Chain
+			@
+
+		# Test Create
+		testCreate: =>
+			# Cleanup
+			@cleanup()
 
 			# Forward
 			super
@@ -114,3 +120,9 @@ module.exports = (testers) ->
 					5*1000
 				)
 
+
+			# Cleanup
+			@cleanup()
+
+			# Chain
+			@
