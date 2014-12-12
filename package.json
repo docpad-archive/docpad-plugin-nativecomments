@@ -34,7 +34,7 @@
     "rimraf": "~2.2.2",
     "chai": "~1.7.2",
     "superagent": "~0.15.4",
-    "coffee-script": "~1.6.2",
+    "coffee-script": "~1.8.0",
     "docpad": ">=6.46 <7",
     "projectz": "~0.3.17"
   },
