@@ -36,7 +36,7 @@
     "superagent": "~0.15.4",
     "coffee-script": "^1.9.0",
     "docpad": ">=6.46 <7",
-    "projectz": "^0.4.2"
+    "projectz": "^0.4.3"
   },
   "main": "./out/nativecomments.plugin.js",
   "scripts": {
